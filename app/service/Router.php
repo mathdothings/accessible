@@ -9,7 +9,7 @@ class Router
     public static function add(string $method, string $route, callable $callback): void
     {
         self::$routes[] = [
-            'method' => $method,
+            'method' => strtoupper($method),
             'route' => $route,
             'callback' => $callback
         ];
