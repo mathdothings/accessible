@@ -15,8 +15,9 @@ class Router
         ];
     }
 
-    public static function redirect(string $route): void
+    public static function redirect(string $route, int $httpResponseCode): void
     {
+        http_response_code($httpResponseCode);
         header("Location: $route");
         die;
     }
