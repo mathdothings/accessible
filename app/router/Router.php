@@ -17,8 +17,8 @@ class Router
 
     public static function redirect(string $route, int $httpResponseCode): void
     {
-        http_response_code($httpResponseCode);
-        header("Location: $route");
+        header("Cache-Control: no-cache, no-store, must-revalidate");
+        header(header: "Location: $route", response_code: $httpResponseCode);
         die;
     }
 
