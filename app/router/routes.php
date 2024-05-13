@@ -3,7 +3,7 @@
 namespace App\Service;
 
 Router::add(method: 'get', route: '/', callback: function () {
-    echo 'Home - GET - Page';
+    require_once __DIR__ . '/../controller/home/home.controller.php';
 });
 
 Router::add(method: 'get', route: '/login', callback: function () {
