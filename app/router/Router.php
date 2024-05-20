@@ -15,7 +15,7 @@ class Router
         ];
     }
 
-    public static function redirect(string $route, int $httpResponseCode): void
+    public static function redirect(string $route, int $httpResponseCode = 0): void
     {
         header("Cache-Control: no-cache, no-store, must-revalidate");
         header(header: "Location: $route", response_code: $httpResponseCode);
