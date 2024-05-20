@@ -1,6 +1,6 @@
 <?php
 
-use App\Service\Router;
+namespace App\Service;
 
 class Authentication
 {
