@@ -1,13 +1,19 @@
 <?php
 
-namespace App\Service;
+namespace App\Router;
+
+use App\Service\Authentication;
+
+require_once ROOT . 'app/service/Authentication.php';
 
 Router::add(method: 'get', route: '/', callback: function () {
-    require_once __DIR__ . '/../controller/home/home.controller.php';
+    Authentication::authenticate() ?
+        require_once ROOT . 'app/controller/home/home.controller.php' : Router::redirect('/login');
 });
 
 Router::add(method: 'get', route: '/login', callback: function () {
-    echo 'Login - GET - Page';
+    Authentication::authenticate() ?
+        Router::redirect('/') : require_once ROOT . 'app/controller/login/login.controller.php';
 });
 
 Router::add(method: 'post', route: '/login', callback: function () {
@@ -15,5 +21,10 @@ Router::add(method: 'post', route: '/login', callback: function () {
 });
 
 Router::add(method: 'get', route: '/signup', callback: function () {
-    echo 'Signup - GET - Page';
+    Authentication::authenticate() ?
+        Router::redirect('/') : require_once ROOT . 'app/controller/signup/signup.controller.php';
+});
+
+Router::add(method: 'post', route: '/signup', callback: function () {
+    echo 'Signup - POST - Page';
 });
