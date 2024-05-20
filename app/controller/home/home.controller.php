@@ -1,3 +1,3 @@
 <?php
 
-require_once __DIR__ . '/../../view/home.php';
+require_once ROOT . '/app/view/home/home.view.php';
