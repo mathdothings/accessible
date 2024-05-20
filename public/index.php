@@ -1,6 +1,6 @@
 <?php
 
-use App\Service\Router;
+use App\Router\Router;
 
 const ROOT = __DIR__ . '/../';
 
@@ -9,3 +9,5 @@ require_once ROOT . '/app/router/Router.php';
 require_once ROOT . '/app/router/routes.php';
 
 Router::route();
+
+session_start();
