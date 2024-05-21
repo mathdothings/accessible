@@ -3,17 +3,17 @@
 namespace App\Router;
 
 use App\Service\Authentication;
+use App\View\View;
 
 require_once ROOT . 'app/service/Authentication.php';
+require_once ROOT . 'app/view/View.php';
 
 Router::add(method: 'get', route: '/', callback: function () {
-    Authentication::authenticate() ?
-        require_once ROOT . 'app/controller/home/home.controller.php' : Router::redirect('/login');
+    Authentication::authenticate() ? View::home() : Router::redirect('/login');
 });
 
 Router::add(method: 'get', route: '/login', callback: function () {
-    Authentication::authenticate() ?
-        Router::redirect('/') : require_once ROOT . 'app/controller/login/login.controller.php';
+    Authentication::authenticate() ? Router::redirect('/') : View::login();
 });
 
 Router::add(method: 'post', route: '/login', callback: function () {
@@ -21,8 +21,7 @@ Router::add(method: 'post', route: '/login', callback: function () {
 });
 
 Router::add(method: 'get', route: '/signup', callback: function () {
-    Authentication::authenticate() ?
-        Router::redirect('/') : require_once ROOT . 'app/controller/signup/signup.controller.php';
+    Authentication::authenticate() ? Router::redirect('/') : View::signup();
 });
 
 Router::add(method: 'post', route: '/signup', callback: function () {
