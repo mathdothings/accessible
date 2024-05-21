@@ -6,7 +6,7 @@ function dd($value): void
     die;
 }
 
-function listStyles(string $directory): array
+function listAllStylesPath(string $directory): array
 {
     $styles = [];
 
@@ -27,7 +27,7 @@ function listStyles(string $directory): array
         return $styles;
     }
 
-    $styles = findFiles($directory, $styles);
+    findFiles($directory, $styles);
 
     return $styles;
 }
