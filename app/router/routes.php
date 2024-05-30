@@ -5,9 +5,6 @@ namespace App\Router;
 use App\Service\Authentication;
 use App\View\View;
 
-require_once ROOT . 'app/service/Authentication.php';
-require_once ROOT . 'app/view/View.php';
-
 Router::add(method: 'get', route: '/', callback: function () {
     Authentication::authenticate() ? View::home() : Router::redirect('/login');
 });
