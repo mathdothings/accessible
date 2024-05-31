@@ -1,4 +1,4 @@
-.main__form__card {
+.login-main__form__card {
     border: 1px solid var(--tertiary);
     border-radius: var(--border-rounded);
     padding: 1rem;
@@ -6,16 +6,16 @@
     box-shadow: 0.25rem 0.25rem 0.15rem var(--light);
 }
 
-.main__form__card:last-child {
+.login-main__form__card:last-child {
     margin-bottom: 1rem;
 }
 
-.main__form__title {
+.login-main__form__title {
     color: var(--primary-dark);
     margin-bottom: 1rem;
 }
 
-.main__form__input {
+.login-main__form__input {
     margin-bottom: 0.45rem;
     padding: 0.55rem;
     border-radius: var(--border-rounded);
@@ -25,22 +25,22 @@
     font-size: 0.65rem;
 }
 
-.main__form__input::placeholder {
+.login-main__form__input::placeholder {
     font-size: 0.65rem;
 }
 
-.main__form__input:active {
+.login-main__form__input:active {
     border-color: var(--primary);
 }
 
-.main__form__input:focus {
+.login-main__form__input:focus {
     background-color: var(--light);
 }
 
-.main__form__button {
+.login-main__form__button {
     padding: 0.35rem 0.7rem;
     margin-top: 0.25rem;
-    color: var(--light);
+    color: var(--white);
     background-color: var(--primary);
     font-size: 0.7rem;
     font-weight: 700;
@@ -49,36 +49,36 @@
     cursor: pointer;
 }
 
-.main__form__button:hover {
+.login-main__form__button:hover {
     color: var(--light);
     background-color: var(--confirm);
 }
 
-.main__form__paragraph {
+.login-main__form__paragraph {
     font-size: 0.75rem;
     text-align: center;
 }
 
-.main__form__paragraph__link {
+.login-main__form__paragraph__link {
     color: var(--primary);
 }
 
-.main__form__paragraph__link:hover {
+.login-main__form__paragraph__link:hover {
     color: var(--dark);
 }
 
-.main__form__validation {
+.login-main__form__validation {
     margin-bottom: 0.45rem;
     padding: 0.35rem 0.2rem;
     font-size: 0.75rem;
     display: none;
 }
 
-.main__form__validation-error {
+.login-main__form__validation-error {
     color: var(--danger);
 }
 
-.main__form__validation-success {
+.login-main__form__validation-success {
     margin-top: 0.5rem;
     padding-left: 0.5rem;
     border-radius: var(--border-rounded);
