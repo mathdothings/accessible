@@ -4,8 +4,6 @@ namespace App\View;
 
 use App\Enum\ViewsPath;
 
-require_once ROOT . 'app/enum/ViewsPath.php';
-
 class View
 {
     static function render($path): void
