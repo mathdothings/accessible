@@ -13,13 +13,14 @@ require_once ROOT . '/app/router/Router.php';
 require_once ROOT . '/app/router/routes.php';
 
 // view
-require_once ROOT . 'app/view/View.php';
+require_once ROOT . '/app/enum/ViewsPath.php';
+require_once ROOT . '/app/view/View.php';
 
 // service
-require_once ROOT . 'app/service/Authentication.php';
+require_once ROOT . '/app/service/Authentication.php';
 
 // controller
-require_once ROOT . 'app/controller/login/LoginController.php';
+require_once ROOT . '/app/controller/login/LoginController.php';
 
 Router::route();
 
