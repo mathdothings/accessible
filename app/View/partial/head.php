@@ -8,7 +8,7 @@
     <?php
     $styles = listAllStylesPath(STYLE_ROOT);
     foreach ($styles as $style) { ?>
-        <link rel="stylesheet" href="<?= '/public/style/' . $style . '?v=' . time(); ?>">
+        <link rel="stylesheet" href="<?= '/style' . $style . '?v=' . time(); ?>">
     <?php } ?>
 </head>
 

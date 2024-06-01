@@ -1,4 +1,4 @@
-<?php require_once ROOT . '/app/view/partial/head.php'; ?>
+<?php require_once ROOT . '/app/View/partial/head.php'; ?>
 
 <article class="center-container">
     <main class="main container">
@@ -16,4 +16,4 @@
         <p class="login-main__form__paragraph login-main__form__card">Don't have an account? <a href="/signup" class="login-main__form__paragraph__link">Sign up!</a></p>
     </main>
 </article>
-<?php require_once ROOT . '/app/view/partial/foot.php'; ?>
+<?php require_once ROOT . '/app/View/partial/foot.php'; ?>

@@ -1,4 +1,4 @@
-<?php require_once ROOT . '/app/view/partial/head.php'; ?>
+<?php require_once ROOT . '/app/View/partial/head.php'; ?>
 
 <article class="center-container">
     <main class="main container">
@@ -20,4 +20,4 @@
     </main>
 </article>
 
-<?php require_once ROOT . '/app/view/partial/foot.php'; ?>
+<?php require_once ROOT . '/app/View/partial/foot.php'; ?>
