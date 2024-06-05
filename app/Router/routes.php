@@ -5,7 +5,6 @@ namespace App\Router;
 use App\Controller\Signup\SignupController;
 use App\DIContainer\UserSignupDIContainer;
 use App\Service\Authentication\Authentication;
-use App\Service\Validation\UserSignupValidation;
 use App\View\View;
 
 Router::add(method: 'get', route: '/', callback: function () {
@@ -25,7 +24,6 @@ Router::add(method: 'get', route: '/signup', callback: function () {
 });
 
 Router::add(method: 'post', route: '/signup', callback: function () {
-    Authentication::authenticate() ? Router::redirect('/') :
-        $signupController = new SignupController(new UserSignupDIContainer);
+    $signupController = new SignupController(new UserSignupDIContainer);
     $signupController->post();
 });
