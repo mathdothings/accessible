@@ -7,23 +7,29 @@ use Closure;
 
 class UserSignupDIContainer
 {
-    public $container = [];
+    static private $container = [];
 
-    public function set(string $name, object $service)
+    public static function set(string $name, callable $callback)
     {
-        $this->container[$name] = $service;
+        self::$container[$name] = $callback();
     }
 
-    public function get($name)
+    public static function setDefinitions(array $definitions)
     {
-        if (!isset($this->container[$name])) {
+        self::$container = $definitions;
+    }
+
+    static public function get($name)
+    {
+        if (!isset(self::$container[$name])) {
             throw new Exception("Service '$name' not found in the container.");
         }
 
-        if ($this->container[$name] instanceof Closure) {
-            return $this->container[$name]();
+        if (self::$container[$name] instanceof Closure) {
+            return self::$container[$name]();
         }
 
-        return $this->container[$name]::class;
+        $className = self::$container[$name]::class;
+        return new $className();
     }
 }
