@@ -2,9 +2,10 @@
 
 namespace App\Controller\Signup;
 
+use App\Router\Router;
+use App\Service\Authentication\Authentication;
 use App\DIContainer\UserSignupDIContainer;
 use App\DTO\UserSignupDTO;
-use App\Service\Validation\UserSignupValidation;
 use App\View\View;
 
 class SignupController
@@ -25,15 +26,19 @@ class SignupController
 
     public function post(): void
     {
-        $this->userSignupDIContainer->set(
-            'App\Service\Validation\UserSignupValidation',
-            new UserSignupValidation
-        );
-        $validation = $this->userSignupDIContainer->get('App\Service\Validation\UserSignupValidation');
+        if (Authentication::authenticate()) Router::redirect('/');
+
+        $this->userSignupDIContainer::setDefinitions([
+            'validation' => function () {
+                return new \App\Service\Validation\UserSignupValidation;
+            }
+        ]);
+
+        $validation = $this->userSignupDIContainer::get('validation');
         $validation::validate(self::createUserSignupDTO());
         // if valid, call the repository service, persist data
         // call the notification service, for both success or failure
-        dd($validation);
+        dd($this->userSignupDIContainer);
     }
 
     static public function get()
