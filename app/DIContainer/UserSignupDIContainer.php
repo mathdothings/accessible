@@ -19,6 +19,26 @@ class UserSignupDIContainer
         self::$container = $definitions;
     }
 
+    public static function getKnownDefinitions()
+    {
+        $result = [];
+
+        foreach (self::$container as $key => $value) {
+            if (!isset($key[$value])) {
+                throw new Exception("Service '$key[$value]' not found in the container.");
+            }
+
+            if ($key[$value] instanceof Closure) {
+                return $key[$value]();
+            }
+        }
+
+        $className = $key[$value]::class;
+        $result[] = $className();
+
+        return $result;
+    }
+
     static public function get($name)
     {
         if (!isset(self::$container[$name])) {
