@@ -8,7 +8,7 @@ function dd($value, $fontSize = '1.5rem;'): void
     die;
 }
 
-function pp($value, $fontSize = '1.5    rem;'): void
+function pp($value, $fontSize = '1.5rem;'): void
 {
     echo "<pre style='font-size: $fontSize'>";
     print_r($value);
