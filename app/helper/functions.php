@@ -1,9 +1,18 @@
 <?php
 
-function dd($value): void
+function dd($value, $fontSize = '1.5rem;'): void
 {
+    echo "<div style='font-size: $fontSize'>";
     var_dump($value);
+    echo '</div>';
     die;
+}
+
+function pp($value, $fontSize = '1.5    rem;'): void
+{
+    echo "<pre style='font-size: $fontSize'>";
+    print_r($value);
+    echo '</pre>';
 }
 
 function listAllStylesPath(string $directory): array
