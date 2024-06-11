@@ -28,17 +28,14 @@ class SignupController
     {
         if (Authentication::authenticate()) Router::redirect('/');
 
-        $this->userSignupDIContainer::setDefinitions([
-            'validation' => function () {
-                return new \App\Service\Validation\UserSignupValidation;
-            }
-        ]);
+        $this->userSignupDIContainer::setDefinitions(
+            ['validation' => fn () => new \App\Service\Validation\UserSignupValidation]
+        );
 
         $validation = $this->userSignupDIContainer::get('validation');
-        $validation::validate(self::createUserSignupDTO());
+        if (!$validation::validate(self::createUserSignupDTO())) dd('Stop');
         // if valid, call the repository service, persist data
         // call the notification service, for both success or failure
-        dd($this->userSignupDIContainer);
     }
 
     static public function get()
