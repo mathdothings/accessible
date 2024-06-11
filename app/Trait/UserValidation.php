@@ -7,7 +7,7 @@ trait UserValidation
     private const ALLOWED_CHARS = '/\d*\s*[a-zA-Z]*/';
     private const ALLOWED_SPECIAL_CHARS = '/^[\.\-_]*@{1}\.{1,2}$/';
 
-    static function validateName(string $name): bool
+    static function isValidName(string $name): bool
     {
         if (empty($name)) return false;
         if (strlen($name) < 3) return false;
@@ -15,7 +15,7 @@ trait UserValidation
         return true;
     }
 
-    static function validateEmail(string $email): bool
+    static function isValidEmail(string $email): bool
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
 
@@ -25,7 +25,7 @@ trait UserValidation
         return true;
     }
 
-    static function validatePassword(string $password): bool
+    static function isValidPassword(string $password): bool
     {
         if (strlen($password) < 8) return false;
         if (!preg_match("/[a-z]/i", $password)) return false;
@@ -35,7 +35,7 @@ trait UserValidation
         return true;
     }
 
-    static function validateRepeatPassword(string $password, string $repeatPassword): bool
+    static function isValidRepeatPassword(string $password, string $repeatPassword): bool
     {
         if ($password !== $repeatPassword) return false;
 
