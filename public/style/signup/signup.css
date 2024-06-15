@@ -68,14 +68,17 @@
 }
 
 .signup-main__form__validation {
-    margin-bottom: 0.45rem;
-    padding: 0.35rem 0.2rem;
-    font-size: 0.75rem;
-    display: none;
+    list-style: none;
 }
 
 .signup-main__form__validation-error {
+    padding: 0.25rem 0.2rem;
+    font-size: 0.75rem;
     color: var(--danger);
+}
+
+.signup-main__form__validation-error:last-child {
+    margin-bottom: 0.25rem;
 }
 
 .signup-main__form__validation-success {
