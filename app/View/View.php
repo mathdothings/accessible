@@ -6,9 +6,10 @@ use App\Enum\ViewsPath;
 
 class View
 {
-    static function render($path): void
+    static function render(string $path, array $errors = null): void
     {
         require_once ROOT . $path;
+        die;
     }
 
     static function home(): void
@@ -21,8 +22,8 @@ class View
         self::render(ViewsPath::Login->value);
     }
 
-    static function signup(): void
+    static function signup(?array $errors): void
     {
-        self::render(ViewsPath::Signup->value);
+        self::render(ViewsPath::Signup->value, $errors);
     }
 }
