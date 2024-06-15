@@ -1,6 +1,6 @@
 <?php
 
-function dd($value, $fontSize = '1.5rem;'): void
+function dd($value, $fontSize = '1.25rem;'): void
 {
     echo "<div style='font-size: $fontSize'>";
     var_dump($value);
@@ -8,7 +8,7 @@ function dd($value, $fontSize = '1.5rem;'): void
     die;
 }
 
-function pp($value, $fontSize = '1.5rem;'): void
+function pp($value, $fontSize = '1.25rem;'): void
 {
     echo "<pre style='font-size: $fontSize'>";
     print_r($value);
