@@ -6,5 +6,5 @@ use App\DTO\UserSignupDTO;
 
 interface UserSignupValidationInterface
 {
-    static public function validate(UserSignupDTO $userSignupDTO): bool | array;
+    static public function isValid(UserSignupDTO $userSignupDTO): bool | array;
 }
