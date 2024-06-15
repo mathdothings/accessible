@@ -8,13 +8,13 @@ use App\Trait\UserValidation;
 class UserSignupValidation implements UserSignupValidationInterface
 {
     use UserValidation;
-    static public function validate(UserSignupDTO $userSignupDTO): bool
+    static public function validate(UserSignupDTO $userSignupDTO): bool | array
     {
-        if (!self::isValidName($userSignupDTO->Name)) return false;
-        if (!self::isValidEmail($userSignupDTO->Email)) return false;
-        if (!self::isValidPassword($userSignupDTO->Password)) return false;
-        if (!self::isValidRepeatPassword($userSignupDTO->Password, $userSignupDTO->RepeatPassword)) return false;
+        self::isValidName($userSignupDTO->Name);
+        self::isValidEmail($userSignupDTO->Email);
+        self::isValidPassword($userSignupDTO->Password);
+        self::isValidRepeatPassword($userSignupDTO->Password, $userSignupDTO->RepeatPassword);
 
-        return true;
+        return self::isValid();
     }
 }
