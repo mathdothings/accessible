@@ -45,13 +45,11 @@ class SignupController
 
         $repository = $container::get('repository');
         $repository->save($dto);
-        echo 'Saved!';
         // call the notification service, for both success or failure
     }
 
     static public function get(array $errors = null)
     {
         return View::signup($errors);
-        die;
     }
 }
