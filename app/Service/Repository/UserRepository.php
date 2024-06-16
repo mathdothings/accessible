@@ -4,21 +4,22 @@ namespace App\Service\Repository;
 
 use PDO;
 use PDOException;
-use App\Service\Database\Database;
+use App\Service\Database\DatabaseInterface;
 use App\Model\UserModel;
 use App\DTO\UserSignupDTO;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function __construct(public Database $Database)
+    private PDO $Connection;
+    public function __construct(public DatabaseInterface $Database)
     {
-        $this->Database = $Database->connect();
+        $this->Connection = $Database->connect();
     }
 
-    public function findById(int $id): UserModel
+    public function find(int $id): UserModel
     {
         try {
-            $stmt = $this->Database->prepare('SELECT * FROM user WHERE id = :id');
+            $stmt = $this->Connection->prepare('SELECT * FROM user WHERE id = :id');
             $stmt->execute(['id' => $id]);
             $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -33,7 +34,7 @@ class UserRepository implements UserRepositoryInterface
     public function findAll(): array
     {
         try {
-            $stmt = $this->Database->query('SELECT * FROM user');
+            $stmt = $this->Connection->query('SELECT * FROM user');
             $users = [];
             while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $users[] = new UserModel($data['id'], $data['email'], $data['name'], $data['passwordHash']);
@@ -50,13 +51,16 @@ class UserRepository implements UserRepositoryInterface
     public function save(UserSignupDTO $user): bool
     {
         try {
-            $stmt = $this->Database->prepare('INSERT INTO user (email, name, passwordHash) VALUES (:email, :name, :passwordHash)');
-            $stmt->execute([
-                'email' => $user->Email,
-                'email' => $user->Name,
-                'passwordHash' => password_hash($user->Password, PASSWORD_DEFAULT)
-            ]);
-            dd('Sucess!');
+            $connection = $this->Connection;
+            $connection->beginTransaction();
+            $sql = "INSERT INTO user (email, name,  passwordHash) VALUES (:email, :name, :passwordHash)";
+            $statement = $connection->prepare($sql);
+            $statement->bindValue('email', $user->Email, PDO::PARAM_STR);
+            $statement->bindValue('name', $user->Name, PDO::PARAM_STR);
+            $statement->bindValue('passwordHash', password_hash($user->Password, PASSWORD_DEFAULT), PDO::PARAM_STR);
+            $statement->execute();
+            $connection->commit();
+
             return true;
         } catch (PDOException $exception) {
             die("Unable to save user" . $exception->getMessage());
@@ -68,7 +72,7 @@ class UserRepository implements UserRepositoryInterface
     public function change(UserModel $user): bool
     {
         try {
-            $stmt = $this->Database->prepare('UPDATE user SET email = :email, name = :name, passwordHash = :passwordHash WHERE id = :id');
+            $stmt = $this->Connection->prepare('UPDATE user SET email = :email, name = :name, passwordHash = :passwordHash WHERE id = :id');
             $stmt->execute([
                 'id' => $user->Id,
                 'username' => $user->Email,
@@ -87,7 +91,7 @@ class UserRepository implements UserRepositoryInterface
     public function remove($id): bool
     {
         try {
-            $stmt = $this->Database->prepare('DELETE FROM user WHERE id = :id');
+            $stmt = $this->Connection->prepare('DELETE FROM user WHERE id = :id');
             $stmt->execute(['id' => $id]);
             return true;
         } catch (PDOException $exception) {
