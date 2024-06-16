@@ -6,6 +6,7 @@ use App\Router\Router;
 use App\Service\Authentication\Authentication;
 use App\DIContainer\UserSignupDIContainer;
 use App\DTO\UserSignupDTO;
+use App\Service\Database\Database;
 use App\View\View;
 
 class SignupController
@@ -29,17 +30,28 @@ class SignupController
         if (Authentication::authenticate()) Router::redirect('/');
 
         $this->userSignupDIContainer::setDefinitions(
-            ['validation' => fn () => new \App\Service\Validation\UserSignupValidation]
+            definitions: [
+                'validation' => fn () => new \App\Service\Validation\UserSignupValidation,
+                'repository' => fn () => new \App\Service\Repository\UserRepository(new Database(Database::connection()))
+            ]
         );
 
-        $validation = $this->userSignupDIContainer::get('validation');
-        if (!$validation::validate(self::createUserSignupDTO())) dd('Stop');
-        // if valid, call the repository service, persist data
+        $dto = self::createUserSignupDTO();
+        $container = $this->userSignupDIContainer;
+
+        $validation = $container::get('validation');
+        $errors = $validation::isValid($dto);
+        if (is_array($errors)) self::get(errors: $errors);
+
+        $repository = $container::get('repository');
+        $repository->save($dto);
+        echo 'Saved!';
         // call the notification service, for both success or failure
     }
 
-    static public function get()
+    static public function get(array $errors = null)
     {
-        return View::signup();
+        return View::signup($errors);
+        die;
     }
 }
