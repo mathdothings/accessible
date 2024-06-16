@@ -7,12 +7,17 @@ use PDOException;
 
 class Database extends PDO implements DatabaseInterface
 {
-    public function __construct(
-        public string $Host,
-        public string $DatabaseName,
-        public string $Username,
-        public string $Password
-    ) {
+    private string $Host;
+    private string $DatabaseName;
+    private string $Username;
+    private string $Password;
+
+    public function __construct(array $connection)
+    {
+        $this->Host = $connection['host'];
+        $this->DatabaseName = $connection['databaseName'];
+        $this->Username = $connection['username'];
+        $this->Password = $connection['password'];
     }
 
     public function connect(): PDO
@@ -27,5 +32,15 @@ class Database extends PDO implements DatabaseInterface
         } catch (PDOException $exception) {
             die("Database connection failed: " . $exception->getMessage());
         }
+    }
+
+    static function connection(): array
+    {
+        return [
+            'host' => 'localhost',
+            'databaseName' => 'oop-login-db',
+            'username' => 'root',
+            'password' => ''
+        ];
     }
 }
