@@ -14,7 +14,7 @@
                 } ?>
             </ul>
             <label for="signup-email"></label>
-            <input type="text" name="signup-email" id="signup-email" placeholder="Email" class="signup-main__form__input" value="<?= htmlspecialchars($_POST['signup-email']?? '') ?>">
+            <input type="text" name="signup-email" id="signup-email" placeholder="Email" class="signup-main__form__input" value="<?= htmlspecialchars($_POST['signup-email'] ?? '') ?>">
             <ul class="signup-main__form__validation">
                 <?php if (isset($errors)) {
                     foreach ($errors['email'] as $value) { ?>
@@ -34,7 +34,7 @@
             <label for="signup-repeat-password"></label>
             <input type="password" name="signup-repeat-password" id="signup-repeat-password" placeholder="Repeat Password" class="signup-main__form__input">
             <ul class="signup-main__form__validation">
-                <?php if (isset($errors['repeatPassword'])) { ?>
+                <?php if (!empty($errors['repeatPassword'])) { ?>
                     <li class="signup-main__form__validation-error "><small><?= $errors['repeatPassword'] ?></small></li>
                 <?php } ?>
             </ul>
