@@ -100,8 +100,11 @@ trait UserValidation
         return true;
     }
 
-    static function validate(): bool | array {
-        if (empty(self::$errors)) return true;
-        return self::$errors;
+    static function validate(): bool | array
+    {
+        foreach (self::$errors as $value) {
+            if (!empty($value)) return self::$errors;
+        }
+        return true;
     }
 }
