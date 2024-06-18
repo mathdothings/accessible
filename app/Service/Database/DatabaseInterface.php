@@ -3,9 +3,11 @@
 namespace App\Service\Database;
 
 use PDO;
+use PDOStatement;
 
 interface DatabaseInterface
 {
     public function connect(): PDO;
-    static function connection(): array;
+    public static function connection(): array;
+    public function query(string $sql, ?array $params = null): PDOStatement|false;
 }

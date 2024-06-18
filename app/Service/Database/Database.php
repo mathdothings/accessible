@@ -4,8 +4,9 @@ namespace App\Service\Database;
 
 use PDO;
 use PDOException;
+use PDOStatement;
 
-class Database extends PDO implements DatabaseInterface
+class Database implements DatabaseInterface
 {
     private string $Host;
     private string $DatabaseName;
@@ -42,5 +43,34 @@ class Database extends PDO implements DatabaseInterface
             'username' => 'root',
             'password' => ''
         ];
+    }
+
+    public function query(string $sql, ?array $params = null): PDOStatement|false
+    {
+        $pdo = $this->connect();
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        try {
+            $pdo->beginTransaction();
+            $statement = $pdo->prepare($sql);
+
+            if (!empty($params)) {
+                foreach ($params as $param) {
+                    ['key' => $key, 'value' => $value, 'type' => $type] = $param;
+                    $statement->bindValue($key, $value, $type);
+                }
+            }
+
+            $statement->execute();
+            $pdo->commit();
+
+            return $statement;
+        } catch (PDOException $exception) {
+            $pdo->rollBack();
+            echo "Error: " . $exception->getMessage();
+            return false;
+        } finally {
+            $pdo = null;
+        }
     }
 }
