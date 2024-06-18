@@ -18,86 +18,80 @@ class UserRepository implements UserRepositoryInterface
 
     public function find(int $id): UserModel
     {
-        try {
-            $stmt = $this->Connection->prepare('SELECT * FROM user WHERE id = :id');
-            $stmt->execute(['id' => $id]);
-            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        $data = $this->Database->query(
+            'SELECT * FROM user WHERE id = :id LIMIT 1',
+            [
+                ['key' => 'id', 'value' => $id, 'type' => PDO::PARAM_INT],
+            ]
+        )->fetch(PDO::FETCH_ASSOC);
 
-            return new UserModel($data['id'], $data['email'], $data['name'], $data['passwordHash']);
-        } catch (PDOException $exception) {
-            die("Unable to find an user with this Id" . $exception->getMessage());
-        } finally {
-            $stmt = null;
-        }
+        return new UserModel($data['id'], $data['email'], $data['name'], $data['passwordHash']);
     }
 
     public function findAll(): array
     {
-        try {
-            $stmt = $this->Connection->query('SELECT * FROM user');
-            $users = [];
-            while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $users[] = new UserModel($data['id'], $data['email'], $data['name'], $data['passwordHash']);
-            }
+        $users = $this->Database->query(
+            'SELECT * FROM user'
+        )->fetchAll(PDO::FETCH_ASSOC);
 
-            return $users;
-        } catch (PDOException $exception) {
-            die("No user found" . $exception->getMessage());
-        } finally {
-            $stmt = null;
+        $result = [];
+        foreach ($users as $user) {
+            $result[] = new UserModel($user['id'], $user['email'], $user['name'], $user['passwordHash']);
         }
+
+        return $result;
     }
 
     public function save(UserSignupDTO $user): bool
     {
-        try {
-            $connection = $this->Connection;
-            $connection->beginTransaction();
-            $sql = "INSERT INTO user (email, name,  passwordHash) VALUES (:email, :name, :passwordHash)";
-            $statement = $connection->prepare($sql);
-            $statement->bindValue('email', $user->Email, PDO::PARAM_STR);
-            $statement->bindValue('name', $user->Name, PDO::PARAM_STR);
-            $statement->bindValue('passwordHash', password_hash($user->Password, PASSWORD_DEFAULT), PDO::PARAM_STR);
-            $statement->execute();
-            $connection->commit();
+        $this->Database->query(
+            'INSERT INTO user (email, name, passwordHash) VALUES (:email, :name, :passwordHash)',
+            [
+                [
+                    'key' => 'email',
+                    'value' => $user->Email,
+                    'type' => PDO::PARAM_STR
+                ],
+                [
+                    'key' => 'name',
+                    'value' => $user->Name,
+                    'type' => PDO::PARAM_STR
+                ],
+                [
+                    'key' => 'passwordHash',
+                    'value' => password_hash($user->Password, PASSWORD_DEFAULT),
+                    'type' => PDO::PARAM_STR
+                ]
+            ]
+        );
 
-            return true;
-        } catch (PDOException $exception) {
-            die("Unable to save user" . $exception->getMessage());
-        } finally {
-            $stmt = null;
-        }
+        return true;
     }
 
     public function change(UserModel $user): bool
     {
-        try {
-            $stmt = $this->Connection->prepare('UPDATE user SET email = :email, name = :name, passwordHash = :passwordHash WHERE id = :id');
-            $stmt->execute([
-                'id' => $user->Id,
-                'username' => $user->Email,
-                'email' => $user->Name,
-                'passwordHash' => $user->PasswordHash
-            ]);
+        $this->Database->query(
+            'UPDATE user SET email = :email, name = :name, passwordHash = :passwordHash WHERE id = :id',
+            [
+                ['key' => 'id', 'value' => $user->Id, 'type' => PDO::PARAM_INT],
+                ['key' => 'email', 'value' => $user->Email, 'type' => PDO::PARAM_STR],
+                ['key' => 'name', 'value' => $user->Name, 'type' => PDO::PARAM_STR],
+                ['key' => 'passwordHash', 'value' => $user->PasswordHash, 'type' => PDO::PARAM_STR]
+            ]
+        );
 
-            return true;
-        } catch (PDOException $exception) {
-            die("Unable to change user" . $exception->getMessage());
-        } finally {
-            $stmt = null;
-        }
+        return true;
     }
 
-    public function remove($id): bool
+    public function remove(int $id): bool
     {
-        try {
-            $stmt = $this->Connection->prepare('DELETE FROM user WHERE id = :id');
-            $stmt->execute(['id' => $id]);
-            return true;
-        } catch (PDOException $exception) {
-            die("Unable to remove user" . $exception->getMessage());
-        } finally {
-            $stmt = null;
-        }
+        $this->Database->query(
+            'DELETE FROM user WHERE id = :id',
+            [
+                ['key' => 'id', 'value' => $id, 'type' => PDO::PARAM_INT],
+            ]
+        );
+
+        return true;
     }
 }

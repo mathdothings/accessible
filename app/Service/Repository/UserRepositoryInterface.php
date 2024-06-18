@@ -11,5 +11,5 @@ interface UserRepositoryInterface
     function find(int $id): UserModel;
     function findAll(): array;
     function change(UserModel $user): bool;
-    function remove(UserSignupDTO $user): bool;
+    function remove(int $id): bool;
 }
