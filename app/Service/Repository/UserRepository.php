@@ -10,10 +10,8 @@ use App\DTO\UserSignupDTO;
 
 class UserRepository implements UserRepositoryInterface
 {
-    private PDO $Connection;
     public function __construct(public DatabaseInterface $Database)
     {
-        $this->Connection = $Database->connect();
     }
 
     public function find(int $id): UserModel
