@@ -3,7 +3,6 @@
 namespace App\Service\Repository;
 
 use PDO;
-use PDOException;
 use App\Service\Database\DatabaseInterface;
 use App\Model\UserModel;
 use App\DTO\UserSignupDTO;
@@ -16,14 +15,14 @@ class UserRepository implements UserRepositoryInterface
 
     public function find(int $id): UserModel
     {
-        $data = $this->Database->query(
+        $user = $this->Database->query(
             'SELECT * FROM user WHERE id = :id LIMIT 1',
             [
-                ['key' => 'id', 'value' => $id, 'type' => PDO::PARAM_INT],
+                ['key' => 'id', 'value' => $id, 'type' => PDO::PARAM_INT]
             ]
         )->fetch(PDO::FETCH_ASSOC);
 
-        return new UserModel($data['id'], $data['email'], $data['name'], $data['passwordHash']);
+        return new UserModel($user['id'], $user['email'], $user['name'], $user['passwordHash']);
     }
 
     public function findAll(): array
