@@ -82,9 +82,19 @@
 }
 
 .signup-main__form__validation-success {
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 0.35rem 0.2rem;
+    text-align: center;
     margin-top: 0.5rem;
-    padding-left: 0.5rem;
     border-radius: var(--border-rounded);
     color: var(--white);
     background-color: var(--confirm);
+}
+
+.main__form__validation-error--highlight {
+    margin-top: 0.5rem;
+    border-radius: var(--border-rounded);
+    background-color: var(--secondary);
+    display: none !important;
 }
