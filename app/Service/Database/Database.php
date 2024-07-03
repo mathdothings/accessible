@@ -45,7 +45,7 @@ class Database implements DatabaseInterface
         ];
     }
 
-    public function query(string $sql, ?array $params = null): PDOStatement|false
+    public function query(string $sql, ?array $params = null): PDOStatement|PDOException
     {
         $pdo = $this->connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -67,8 +67,7 @@ class Database implements DatabaseInterface
             return $statement;
         } catch (PDOException $exception) {
             $pdo->rollBack();
-            echo "Error: " . $exception->getMessage();
-            return false;
+            return $exception;
         } finally {
             $pdo = null;
         }
