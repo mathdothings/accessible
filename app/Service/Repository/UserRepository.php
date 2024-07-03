@@ -6,6 +6,8 @@ use PDO;
 use App\Service\Database\DatabaseInterface;
 use App\Model\UserModel;
 use App\DTO\UserSignupDTO;
+use PDOException;
+use PDOStatement;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -39,9 +41,9 @@ class UserRepository implements UserRepositoryInterface
         return $result;
     }
 
-    public function save(UserSignupDTO $user): bool
+    public function save(UserSignupDTO $user): PDOStatement|PDOException
     {
-        $this->Database->query(
+        return $this->Database->query(
             'INSERT INTO user (email, name, passwordHash) VALUES (:email, :name, :passwordHash)',
             [
                 [
@@ -61,8 +63,6 @@ class UserRepository implements UserRepositoryInterface
                 ]
             ]
         );
-
-        return true;
     }
 
     public function change(UserModel $user): bool
