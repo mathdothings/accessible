@@ -4,18 +4,16 @@ namespace App\Service\Repository;
 
 use PDO;
 use App\Service\Database\DatabaseInterface;
-use App\Model\UserModel;
+use App\Entity\UserEntity;
 use App\DTO\UserSignupDTO;
 use PDOException;
 use PDOStatement;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function __construct(public DatabaseInterface $Database)
-    {
-    }
+    public function __construct(public DatabaseInterface $Database) {}
 
-    public function find(int $id): UserModel
+    public function find(int $id): UserEntity
     {
         $user = $this->Database->query(
             'SELECT * FROM user WHERE id = :id LIMIT 1',
@@ -24,7 +22,7 @@ class UserRepository implements UserRepositoryInterface
             ]
         )->fetch(PDO::FETCH_ASSOC);
 
-        return new UserModel($user['id'], $user['email'], $user['name'], $user['passwordHash']);
+        return new UserEntity($user['id'], $user['email'], $user['name'], $user['passwordHash']);
     }
 
     public function findAll(): array
@@ -35,7 +33,7 @@ class UserRepository implements UserRepositoryInterface
 
         $result = [];
         foreach ($users as $user) {
-            $result[] = new UserModel($user['id'], $user['email'], $user['name'], $user['passwordHash']);
+            $result[] = new UserEntity($user['id'], $user['email'], $user['name'], $user['passwordHash']);
         }
 
         return $result;
@@ -65,7 +63,7 @@ class UserRepository implements UserRepositoryInterface
         );
     }
 
-    public function change(UserModel $user): bool
+    public function change(UserEntity $user): bool
     {
         $this->Database->query(
             'UPDATE user SET email = :email, name = :name, passwordHash = :passwordHash WHERE id = :id',

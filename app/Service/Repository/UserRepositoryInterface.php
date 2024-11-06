@@ -3,15 +3,15 @@
 namespace App\Service\Repository;
 
 use App\DTO\UserSignupDTO;
-use App\Model\UserModel;
+use App\Entity\UserEntity;
 use PDOException;
 use PDOStatement;
 
 interface UserRepositoryInterface
 {
     function save(UserSignupDTO $userSignupDTO): PDOStatement | PDOException;
-    function find(int $id): UserModel;
+    function find(int $id): UserEntity;
     function findAll(): array;
-    function change(UserModel $user): bool;
+    function change(UserEntity $user): bool;
     function remove(int $id): bool;
 }

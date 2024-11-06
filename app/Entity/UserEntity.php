@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Model;
+namespace App\Entity;
 
-class UserModel
+class UserEntity
 {
     public function __construct(
         public int $Id,
