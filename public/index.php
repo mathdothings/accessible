@@ -1,13 +1,15 @@
 <?php
 
-const ROOT = __DIR__ . '/../';
-const STYLE_ROOT = __DIR__ . '/style/';
+// const ROOT = __DIR__ . '/../';
+// const STYLE_ROOT = __DIR__ . '/style/';
 
-require ROOT . 'vendor/autoload.php';
-require_once ROOT . '/app/helper/functions.php';
-require_once ROOT . '/app/Router/routes.php';
+// require ROOT . 'vendor/autoload.php';
+// require_once ROOT . '/app/helper/functions.php';
+// require_once ROOT . '/app/Router/routes.php';
 
-use App\Router\Router;
+// use App\Router\Router;
 
-Router::route();
-session_start();
+// Router::route();
+// session_start();
+
+echo 'Hello, world!';
